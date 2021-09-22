@@ -23,6 +23,7 @@ window.rowconfigure(2, pad=10)
 
 
 def set_input_folder():
+    global input_folder
     input_folder = askdirectory()
     if not input_folder:
         return
@@ -33,22 +34,18 @@ def set_input_folder():
         st_input_files.insert(f"{ind}.0", f"{file}\n")
 
 def set_output_folder():
+    global output_folder
     output_folder = askdirectory()
     if not output_folder:
         return
     ent_output_path.delete(0, tk.END)
     ent_output_path.insert(0, os.path.normpath(output_folder))
 
-def update_list_of_images_to_import(input_folder):
-    if input_folder:
-        images_to_import = pi.get_list_of_images_to_import(input_folder)
-        pass
-
-def perform_move_images(input_folder, output_folder):
+def perform_move_images():
     move_log = pi.move_images(input_folder, output_folder)
     st_log.delete("0.0", tk.END)
     for ind, file in enumerate(move_log):
-        st_log.insert(f"{ind}.0", f"{file}\n")
+        st_log.insert(f"{ind}.0", f"{file[0][1]}{file[0][2]} copied at {file[1]}\n")
     
 
 ##  Build Detail Frame 
@@ -93,10 +90,10 @@ frm_detail.grid(row=0, column=0, sticky="ew")
 ## Setup the actions frame.
 frm_actions = tk.Frame(master=window, borderwidth=2, relief="flat")
 
-btn_copy_files = tk.Button(master=frm_actions, text="Copy Files", borderwidth=1, relief="raised")
+btn_copy_files = tk.Button(master=frm_actions, text="Copy Files", borderwidth=1, relief="raised", command=perform_move_images)
 btn_copy_files.pack(side="right", ipadx=5, padx=5, pady=5, fill="x")
 
-btn_move_files = tk.Button(master=frm_actions, text="Move Files", borderwidth=1, relief="raised", command=perform_move_images(input_folder, output_folder))
+btn_move_files = tk.Button(master=frm_actions, text="Move Files", borderwidth=1, relief="raised", command=perform_move_images)
 btn_move_files.pack(side="right", ipadx=5, padx=5, pady=5, fill="x")
 
 frm_actions.grid(row=1, column=0, sticky="EW")

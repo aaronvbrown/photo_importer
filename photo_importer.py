@@ -2,8 +2,7 @@ import os
 from string import ascii_uppercase
 import shutil
 import datetime
-# from tkinter.filedialog import askdirectory
-# from PIL import Image
+
 
 image_file_extensions = [
     '.jpeg'
@@ -15,7 +14,6 @@ image_file_extensions = [
     ,'.mp4'
     ,'.avi'
 ]
-
 
 
 def get_drive_list():
@@ -44,10 +42,6 @@ def get_list_of_images_to_import(path):
                 file_extension  = os.path.splitext(file)[1]
                 files.append((file_path, file_name, file_extension))
     return files 
-
-
-    
-    
     
 def move_images(input_path, output_path):
     image_list = get_list_of_images_to_import(input_path)
@@ -57,6 +51,8 @@ def move_images(input_path, output_path):
         files_moved.append((image, datetime.datetime.now()))
     return files_moved
         
+
+## Test Code
 # test_list = get_list_of_images_to_import(input_path)
 # move_images(test_list)
         
@@ -65,11 +61,19 @@ def move_images(input_path, output_path):
 # move_images(input_path, output_path)
 
 # print(get_list_of_images_to_import('e:\\'))
+
+
+
 # path = '\\\\DISKSTATION\\photo\\2021\\2021_08_17\\'
 # path = 'e:/'
+# path = 'c:/Users/world/Pictures/Import'
+# output_path = 'c:/Users/world/Pictures/Export'
 # a = get_list_of_images_to_import(path)
 # for i in a:
 #     print(i)
+#     print(i[0])
+#     print(os.path.getsize(i[0]))
+#     shutil.copy(i[0], output_path)
 
 
 
