@@ -1,7 +1,8 @@
 import os
 from string import ascii_uppercase
 import shutil
-from tkinter.filedialog import askdirectory
+import datetime
+# from tkinter.filedialog import askdirectory
 # from PIL import Image
 
 image_file_extensions = [
@@ -14,8 +15,6 @@ image_file_extensions = [
     ,'.mp4'
     ,'.avi'
 ]
-input_path = 'e:\\'
-output_path = 'C:\\Users\\world\\Pictures\\Import\\'
 
 
 
@@ -36,7 +35,7 @@ def get_non_mount_drive_list():
 def get_list_of_images_to_import(path):
     files = []
     # r=root, d=directories, f = files
-    for r, d, f in os.walk(path):
+    for r, d, f in os.walk(os.path.normpath(path)):
         for file in f:
             file_ext_lower = os.path.splitext(file)[1].lower()
             if file_ext_lower in image_file_extensions:
@@ -50,16 +49,24 @@ def get_list_of_images_to_import(path):
     
     
     
-def move_images(image_list):
+def move_images(input_path, output_path):
+    image_list = get_list_of_images_to_import(input_path)
+    files_moved = []
     for image in image_list:
         shutil.copy(image[0], output_path)
+        files_moved.append((image, datetime.datetime.now()))
+    return files_moved
         
 # test_list = get_list_of_images_to_import(input_path)
 # move_images(test_list)
+        
+# input_path = 'C:\\Users\\world\\Pictures\\Import\\'
+# output_path = 'C:\\Users\\world\\Pictures\\Export\\'
+# move_images(input_path, output_path)
 
 # print(get_list_of_images_to_import('e:\\'))
 # path = '\\\\DISKSTATION\\photo\\2021\\2021_08_17\\'
-# path = 'e:\\'
+# path = 'e:/'
 # a = get_list_of_images_to_import(path)
 # for i in a:
 #     print(i)
