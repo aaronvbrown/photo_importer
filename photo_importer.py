@@ -40,7 +40,7 @@ def get_list_of_images_to_import(path):
                 file_path       = os.path.join(r, file)
                 file_name       = os.path.splitext(file)[0]
                 file_extension  = os.path.splitext(file)[1]
-                files.append((file_path, file_name, file_extension))
+                files.append((file_path, file_name, file_extension, file))
     return files 
     
 def move_images(input_path, output_path):

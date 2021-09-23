@@ -31,7 +31,7 @@ def set_input_folder():
     ent_input_path.insert(0, os.path.normpath(input_folder))
     st_input_files.delete("0.0", tk.END)
     for ind, file in enumerate(pi.get_list_of_images_to_import(input_folder)):
-        st_input_files.insert(f"{ind}.0", f"{file}\n")
+        st_input_files.insert(f"{ind}.0", f"{os.path.normpath(file[0])}\n")
 
 def set_output_folder():
     global output_folder
@@ -97,6 +97,5 @@ btn_move_files = tk.Button(master=frm_actions, text="Move Files", borderwidth=1,
 btn_move_files.pack(side="right", ipadx=5, padx=5, pady=5, fill="x")
 
 frm_actions.grid(row=1, column=0, sticky="EW")
-
 
 window.mainloop()
