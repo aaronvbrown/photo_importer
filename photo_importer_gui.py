@@ -41,6 +41,12 @@ def set_output_folder():
     ent_output_path.delete(0, tk.END)
     ent_output_path.insert(0, os.path.normpath(output_folder))
 
+def perform_copy_images():
+    move_log = pi.copy_images(input_folder, output_folder)
+    st_log.delete("0.0", tk.END)
+    for ind, file in enumerate(move_log):
+        st_log.insert(f"{ind}.0", f"{file[0][1]}{file[0][2]} copied at {file[1]}\n")
+
 def perform_move_images():
     move_log = pi.move_images(input_folder, output_folder)
     st_log.delete("0.0", tk.END)
@@ -66,7 +72,7 @@ btn_input_path.grid(row=0, column=2, sticky="sew", padx=5, pady=5)
 lbl_input_files = tk.Label(master=frm_detail, text="Input Files")
 lbl_input_files.grid(row=1, column=0, sticky="nw")
 st_input_files = st.ScrolledText(master=frm_detail, bg="White", height=10)
-st_input_files.insert("1.0", "This is where the scrolled text belongs.")
+# st_input_files.insert("1.0", "This is where the scrolled text belongs.")
 st_input_files.grid(row=1, column=1)
 
 # Output Path
@@ -90,7 +96,7 @@ frm_detail.grid(row=0, column=0, sticky="ew")
 ## Setup the actions frame.
 frm_actions = tk.Frame(master=window, borderwidth=2, relief="flat")
 
-btn_copy_files = tk.Button(master=frm_actions, text="Copy Files", borderwidth=1, relief="raised", command=perform_move_images)
+btn_copy_files = tk.Button(master=frm_actions, text="Copy Files", borderwidth=1, relief="raised", command=perform_copy_images)
 btn_copy_files.pack(side="right", ipadx=5, padx=5, pady=5, fill="x")
 
 btn_move_files = tk.Button(master=frm_actions, text="Move Files", borderwidth=1, relief="raised", command=perform_move_images)

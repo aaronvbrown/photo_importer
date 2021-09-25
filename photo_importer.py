@@ -43,11 +43,19 @@ def get_list_of_images_to_import(path):
                 files.append((file_path, file_name, file_extension, file))
     return files 
     
+def copy_images(input_path, output_path):
+    image_list = get_list_of_images_to_import(input_path)
+    files_moved = []
+    for image in image_list:
+        shutil.copy2(image[0], output_path)
+        files_moved.append((image, datetime.datetime.now()))
+    return files_moved
+
 def move_images(input_path, output_path):
     image_list = get_list_of_images_to_import(input_path)
     files_moved = []
     for image in image_list:
-        shutil.copy(image[0], output_path)
+        shutil.move(image[0], output_path)
         files_moved.append((image, datetime.datetime.now()))
     return files_moved
         
