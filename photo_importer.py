@@ -2,6 +2,9 @@ import os
 from string import ascii_uppercase
 import shutil
 import datetime
+import PIL
+from PIL import Image
+
 
 
 image_file_extensions = [
@@ -58,35 +61,29 @@ def move_images(input_path, output_path):
         shutil.move(image[0], output_path)
         files_moved.append((image, datetime.datetime.now()))
     return files_moved
+    
         
+def get_date_taken(image):
+    datetime_str = Image.open(image)._getexif()[36867]
+    # return datetime_str
+    dt_obj = datetime.datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
+    return dt_obj
 
-## Test Code
-# test_list = get_list_of_images_to_import(input_path)
-# move_images(test_list)
-        
-# input_path = 'C:\\Users\\world\\Pictures\\Import\\'
-# output_path = 'C:\\Users\\world\\Pictures\\Export\\'
-# move_images(input_path, output_path)
-
-# print(get_list_of_images_to_import('e:\\'))
-
-
-
-# path = '\\\\DISKSTATION\\photo\\2021\\2021_08_17\\'
-# path = 'e:/'
-# path = 'c:/Users/world/Pictures/Import'
-# output_path = 'c:/Users/world/Pictures/Export'
-# a = get_list_of_images_to_import(path)
-# for i in a:
-#     print(i)
-#     print(i[0])
-#     print(os.path.getsize(i[0]))
-#     shutil.copy(i[0], output_path)
+# Currently works for JPEG.
+def set_reorg_dest_folder(image):
+    date_taken = get_date_taken(image)
+    folder_0 = date_taken.strftime("%Y")
+    folder_1 = date_taken.strftime("%Y_%m")
+    folder_2 = date_taken.strftime("%Y_%m_%d")
+    return (folder_0, folder_1, folder_2)
 
 
+## test code
 
-# def set_output_folder():
-#     pass
+# img_file = 'C:\\Users\\world\\Pictures\\Import\\IMG_6484.JPG'
 
-
-
+# image_date = get_date_taken(img_file)
+# print(image_date.year)
+# print(get_date_taken(img_file))
+# print("type of date_string =", type(get_date_taken(img_file)))
+# print(set_reorg_dest_folder(img_file))
