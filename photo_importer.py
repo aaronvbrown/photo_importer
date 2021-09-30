@@ -63,13 +63,18 @@ def move_images(input_path, output_path):
     return files_moved
     
         
+# Returns the date taken as a datetime object.
 def get_date_taken(image):
+    if image.lower.endswith(".jpg"):
+        return get_date_taken_jpeg(image)
+
+# Returns the date taken as a datetime object for JPEG files.
+def get_date_taken_jpeg(image):
     datetime_str = Image.open(image)._getexif()[36867]
     # return datetime_str
     dt_obj = datetime.datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
     return dt_obj
 
-# Currently works for JPEG.
 def set_reorg_dest_folder(image):
     date_taken = get_date_taken(image)
     folder_0 = date_taken.strftime("%Y")
@@ -81,6 +86,13 @@ def set_reorg_dest_folder(image):
 ## test code
 
 # img_file = 'C:\\Users\\world\\Pictures\\Import\\IMG_6484.JPG'
+# img_obj = Image.open(img_file)
+# # dir(img_obj)
+# for k, v in img_obj.__dict__.items():
+    
+#     if k not in ["applist", "info", "applist", "app"]:
+#         print(f"{k}: {v}")
+
 
 # image_date = get_date_taken(img_file)
 # print(image_date.year)
