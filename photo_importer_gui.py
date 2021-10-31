@@ -2,14 +2,16 @@ import tkinter as tk
 from tkinter import scrolledtext as st
 from tkinter.filedialog import askdirectory
 import os
-
-
 import photo_importer as pi
 
-input_folder = ""
-output_folder = ""
+# Test Code
+# input_folder = 'C:\\Users\\world\\Pictures\\Export\\'
+# output_folder = 'C:\\Users\\world\\Pictures\\Import\\'
+# session = pi.FileImport(input_folder, output_folder)
 
-
+input_folder = os.getcwd()
+output_folder = os.getcwd()
+session = pi.FileImport(input_folder, output_folder)
 
 ## Main window setup
 
@@ -27,28 +29,30 @@ def set_input_folder():
     input_folder = askdirectory()
     if not input_folder:
         return
+    session = pi.FileImport(input_folder, output_folder)
     ent_input_path.delete(0, tk.END)
     ent_input_path.insert(0, os.path.normpath(input_folder))
     st_input_files.delete("0.0", tk.END)
-    for ind, file in enumerate(pi.get_list_of_images_to_import(input_folder)):
+    for ind, file in enumerate(session.get_list_of_images_to_import()):
         st_input_files.insert(f"{ind}.0", f"{os.path.normpath(file[0])}\n")
 
 def set_output_folder():
-    global output_folder
+    global output_folder, session
     output_folder = askdirectory()
     if not output_folder:
         return
+    session = pi.FileImport(input_folder, output_folder)
     ent_output_path.delete(0, tk.END)
     ent_output_path.insert(0, os.path.normpath(output_folder))
 
 def perform_copy_images():
-    move_log = pi.copy_images(input_folder, output_folder)
+    move_log = session.copy_images()
     st_log.delete("0.0", tk.END)
     for ind, file in enumerate(move_log):
         st_log.insert(f"{ind}.0", f"{file[0][1]}{file[0][2]} copied at {file[1]}\n")
 
 def perform_move_images():
-    move_log = pi.move_images(input_folder, output_folder)
+    move_log = session.move_images()
     st_log.delete("0.0", tk.END)
     for ind, file in enumerate(move_log):
         st_log.insert(f"{ind}.0", f"{file[0][1]}{file[0][2]} copied at {file[1]}\n")
