@@ -25,7 +25,7 @@ window.rowconfigure(2, pad=10)
 
 
 def set_input_folder():
-    global input_folder
+    global input_folder, session
     input_folder = askdirectory()
     if not input_folder:
         return
